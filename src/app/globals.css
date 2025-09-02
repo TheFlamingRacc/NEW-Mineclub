@@ -1,0 +1,230 @@
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@font-face {
+  font-family: "Minecraft";
+  src: url("/fonts/Minecraft_1.1.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+}
+
+body {
+  color: var(--foreground);
+  background: #09021C;
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  text-transform: none !important;
+}
+
+a {
+  color: inherit;
+}
+
+.custom-toast {
+  position: relative;
+  width: 350px;
+  height: 74px;
+  border-radius: 15px 0 0 15px;
+  font-family: var(--font-manrope);
+  font-size: clamp(0px, 1.2vw, 24px);
+  font-weight: 1000;
+  background-color: #23144C;
+  padding-left: 20px;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0 0 0;
+}
+
+/* Смужка справа */
+.custom-toast::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 4px;
+  height: 100%;
+  background-color: var(--toast-color, #FF0000); /* дефолт — червоний */
+  box-shadow: 0 0 8px 3px var(--toast-shadow, rgba(255, 0, 0, 0.6));
+}
+
+/* Градієнт зліва */
+.custom-toast::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100%;
+  background: linear-gradient(
+    to left,
+    var(--toast-gradient, rgba(255, 0, 0, 0.5)),
+    transparent
+  );
+  pointer-events: none;
+}
+
+/* Модифікатори кольору */
+.toast-success {
+  --toast-color: #54B958;
+  --toast-shadow: rgba(0, 217, 95, 0.6);
+  --toast-gradient: rgba(84, 185, 88, 0.5);
+}
+
+.toast-error {
+  --toast-color: #F54F4F;
+  --toast-shadow: rgba(255, 59, 59, 0.6);
+  --toast-gradient: rgba(245, 79, 79, 0.5);
+  color: #F54F4F;
+}
+
+.toast-info {
+  --toast-color: #3BB0FF;
+  --toast-shadow: rgba(59, 176, 255, 0.6);
+  --toast-gradient: rgba(59, 176, 255, 0.4);
+}
+
+.toast-warning {
+  --toast-color: #FFA500;
+  --toast-shadow: rgba(255, 165, 0, 0.6);
+  --toast-gradient: rgba(255, 165, 0, 0.4);
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+
+.toast-slide-in {
+  animation: slideIn 0.5s forwards ease;
+}
+
+.toast-slide-out {
+  animation: slideOut 0.3s forwards ease-in-out;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+img {
+  pointer-events: none;
+  user-select: none,
+}
+
+.privacyLi > li {
+  margin-top: clamp(0px, 2vw, 20px);
+  display: flex;
+}
+
+.privacyLi > li > p {
+    font-size: clamp(1px, 3vw, 18px);
+}
+
+.privacyLi > li > span > ul > li {
+  margin: clamp(0px, 5vw, 20px) 0 0 clamp(0px, 5vw, 40px);
+}
+.privacyLi > li > span > ul > li > ul > li {
+    margin: clamp(0px, 5vw, 20px) 0 0 clamp(0px, 5vw, 40px);
+}
+
+.privacyLi > li > div > span > ul > li {
+    margin: clamp(0px, 5vw, 20px) 0 0 clamp(0px, 5vw,40px);
+}
+
+@keyframes animatedTextGradient {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* #backgroundImageHome {
+  height: 100%;
+  width: 75%;
+  margin-left: auto;
+  background-image: url(/public/images/homeBg0.svg);
+  background-position: 0%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  border-radius: 60px;
+  position: relative;
+
+  -webkit-mask: 
+    url(/public/images/maskImages/home-top-rigth.svg) center / contain no-repeat, 
+    linear-gradient(#000000 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  mask-size: 200px;
+  mask-position: top right;
+} */
+
+@keyframes moveRight {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes moveLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
