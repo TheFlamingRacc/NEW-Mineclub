@@ -67,7 +67,13 @@ export default function NavigationRow() {
   }, [activeIndex]);
 
   return (
-    <Box sx={{ position: "relative", marginRight: "clamp(0px, 4vw, 40px)" }}>
+    <Box
+      sx={{
+        color: "#fff",
+        position: "relative",
+        marginRight: "clamp(0px, 4vw, 40px)",
+      }}
+    >
       <Box
         sx={{
           display: "flex",

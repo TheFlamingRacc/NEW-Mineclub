@@ -10,6 +10,7 @@ export default function Footer({ prevPath }: { prevPath?: string }) {
         width: "100%",
         position: "relative",
         height: "auto",
+        color: "#fff",
       }}
     >
       <Box

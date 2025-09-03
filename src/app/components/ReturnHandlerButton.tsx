@@ -27,7 +27,7 @@ export default function ReturnHandlerButton({ children }: PropsWithChildren) {
         borderWidth: "3px 3px 3px 0",
         borderStyle: "solid",
         borderColor: "white",
-        color: "white",
+        color: "#fff",
         padding: "0",
         minWidth: "0",
         marginRight: "clamp(0px, 2vw, 15px)",

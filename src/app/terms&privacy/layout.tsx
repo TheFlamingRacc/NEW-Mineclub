@@ -9,6 +9,7 @@ export default function TermsAndPrivacyLayout({ children }: PropsWithChildren) {
         sx={{
           backgroundColor: "#09021C",
           marginTop: "clamp(20px, 19vw, 113px)",
+          color: "#fff",
         }}
       >
         {children}

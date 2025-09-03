@@ -26,6 +26,7 @@ export default function CustomToastContainer() {
         right: 0,
         margin: 0,
         padding: 0,
+        color: "#fff",
       }}
       closeButton={false}
       pauseOnFocusLoss

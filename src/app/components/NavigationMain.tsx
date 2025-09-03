@@ -91,6 +91,7 @@ export default function NavigationMain() {
   return (
     <Box
       sx={{
+        color: "#fff",
         height: "clamp(20px, 4vw, 55px)",
         width: containerWidth,
         borderRadius: "50px",

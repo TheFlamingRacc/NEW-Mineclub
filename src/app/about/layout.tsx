@@ -14,6 +14,7 @@ export default function AboutLayout({ children }: PropsWithChildren) {
       sx={{
         minHeight: "100vh",
         width: "100vw",
+        color: "#fff",
       }}
     >
       <Box

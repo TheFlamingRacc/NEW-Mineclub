@@ -9,7 +9,7 @@ export default function ReturnButton({ children }: PropsWithChildren) {
       <ReturnHandlerButton>
         <ArrowBackIosIcon
           sx={{
-            color: "white",
+            color: "#fff",
             fontSize: "clamp(0px, 3vw, 32px)",
             filter: "drop-shadow(0 0 6px rgba(255, 255, 255, 0.9))",
             margin: "0",

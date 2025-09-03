@@ -21,6 +21,7 @@ export default async function HomeLayout() {
           height: "100vh",
           padding:
             "clamp(0px, 5vw, 46px) clamp(0px, 5vw, 46px) clamp(0px, 8vh, 86px) clamp(0px, 5vw, 46px)",
+          color: "#fff",
         }}
       >
         <Box
