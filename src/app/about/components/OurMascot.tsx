@@ -1,155 +1,162 @@
 "use client";
 
-import React, { useState } from "react";
-import Marquee from "@/app/components/Marquee";
+import { Box } from "@mui/material";
+import { useState } from "react";
 import OurMascotComponent from "./OurMascotComponent";
+import Marquee from "@/app/components/Marquee";
 
-// Мокові дані — імітуємо, що бекенд уже розділив на 3 групи
-const initialImagesData = {
-  marquee1: [
-    {
-      id: 1,
-      image: "/images/mascot_img.jpg",
-      likes: 2,
-      isLiked: true,
-      isSaved: false,
-    },
-    {
-      id: 4,
-      image: "/images/mascot_img.jpg",
-      likes: 0,
-      isLiked: true,
-      isSaved: false,
-    },
-    {
-      id: 7,
-      image: "/images/mascot_img.jpg",
-      likes: 14,
-      isLiked: false,
-      isSaved: false,
-    },
-  ],
-  marquee2: [
-    {
-      id: 2,
-      image: "/images/mascot_img.jpg",
-      likes: 200,
-      isLiked: false,
-      isSaved: false,
-    },
-    {
-      id: 5,
-      image: "/images/mascot_img.jpg",
-      likes: 1000,
-      isLiked: false,
-      isSaved: false,
-    },
-    {
-      id: 8,
-      image: "/images/mascot_img.jpg",
-      likes: 47,
-      isLiked: true,
-      isSaved: false,
-    },
-  ],
-  marquee3: [
-    {
-      id: 3,
-      image: "/images/mascot_img.jpg",
-      likes: 20,
-      isLiked: true,
-      isSaved: true,
-    },
-    {
-      id: 6,
-      image: "/images/mascot_img.jpg",
-      likes: 1000000,
-      isLiked: true,
-      isSaved: true,
-    },
-    {
-      id: 9,
-      image: "/images/mascot_img.jpg",
-      likes: 333,
-      isLiked: false,
-      isSaved: true,
-    },
-  ],
+type MascotData = {
+  id: number;
+  image: string;
+  likes: number;
+  isLiked: boolean;
+  isSaved: boolean;
 };
 
-export default function OurMascot() {
-  const [imagesData, setImagesData] = useState(initialImagesData);
+// Заглушки зображень
+const initialData: MascotData[] = [
+  {
+    id: 1,
+    image: "/images/mascot.jpg",
+    likes: 12,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 2,
+    image: "/images/mascot.jpg",
+    likes: 45,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 3,
+    image: "/images/mascot.jpg",
+    likes: 7,
+    isLiked: false,
+    isSaved: true,
+  },
+  {
+    id: 4,
+    image: "/images/mascot.jpg",
+    likes: 20,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 5,
+    image: "/images/mascot.jpg",
+    likes: 3,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 6,
+    image: "/images/mascot.jpg",
+    likes: 18,
+    isLiked: true,
+    isSaved: false,
+  },
+  {
+    id: 7,
+    image: "/images/mascot.jpg",
+    likes: 33,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 8,
+    image: "/images/mascot.jpg",
+    likes: 9,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 9,
+    image: "/images/mascot.jpg",
+    likes: 100,
+    isLiked: true,
+    isSaved: true,
+  },
+  {
+    id: 10,
+    image: "/images/mascot.jpg",
+    likes: 55,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 11,
+    image: "/images/mascot.jpg",
+    likes: 1,
+    isLiked: false,
+    isSaved: false,
+  },
+  {
+    id: 12,
+    image: "/images/mascot.jpg",
+    likes: 67,
+    isLiked: false,
+    isSaved: true,
+  },
+];
 
+// Функція для розбивки на групи по 4
+function chunkArray<T>(arr: T[], size: number) {
+  const res: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    res.push(arr.slice(i, i + size));
+  }
+  return res;
+}
+
+export default function MultipleMarquees() {
+  const [mascots, setMascots] = useState(initialData);
+
+  // Обробники для синхронізації
   const toggleLike = (id: number) => {
-    setImagesData((prev) => {
-      const updateArray = (arr) =>
-        arr.map((item) =>
-          item.id === id
-            ? {
-                ...item,
-                isLiked: !item.isLiked,
-                likes: item.isLiked ? item.likes - 1 : item.likes + 1,
-              }
-            : item
-        );
-
-      return {
-        marquee1: updateArray(prev.marquee1),
-        marquee2: updateArray(prev.marquee2),
-        marquee3: updateArray(prev.marquee3),
-      };
-    });
+    setMascots((prev) =>
+      prev.map((m) =>
+        m.id === id
+          ? {
+              ...m,
+              isLiked: !m.isLiked,
+              likes: m.isLiked ? m.likes - 1 : m.likes + 1,
+            }
+          : m
+      )
+    );
   };
 
   const toggleSave = (id: number) => {
-    setImagesData((prev) => {
-      const updateArray = (arr) =>
-        arr.map((item) =>
-          item.id === id ? { ...item, isSaved: !item.isSaved } : item
-        );
-
-      return {
-        marquee1: updateArray(prev.marquee1),
-        marquee2: updateArray(prev.marquee2),
-        marquee3: updateArray(prev.marquee3),
-      };
-    });
+    setMascots((prev) =>
+      prev.map((m) => (m.id === id ? { ...m, isSaved: !m.isSaved } : m))
+    );
   };
 
+  // Розділяємо дані на 3 "ряди" по 4
+  const rows = chunkArray(mascots, 4);
+
   return (
-    <>
-      <Marquee bottomGap={3} speed={10} pauseOnHover>
-        {imagesData.marquee1.map(({ id, image, likes, isLiked, isSaved }) => (
-          <OurMascotComponent
-            key={`m1-${id}`}
-            imageData={{ id, image, likes, isLiked, isSaved }}
-            onToggleLike={() => toggleLike(id)}
-            onToggleSave={() => toggleSave(id)}
-          />
-        ))}
-      </Marquee>
-
-      <Marquee bottomGap={3} speed={10} reverse pauseOnHover>
-        {imagesData.marquee2.map(({ id, image, likes, isLiked, isSaved }) => (
-          <OurMascotComponent
-            key={`m2-${id}`}
-            imageData={{ id, image, likes, isLiked, isSaved }}
-            onToggleLike={() => toggleLike(id)}
-            onToggleSave={() => toggleSave(id)}
-          />
-        ))}
-      </Marquee>
-
-      <Marquee bottomGap={3} speed={10} pauseOnHover>
-        {imagesData.marquee3.map(({ id, image, likes, isLiked, isSaved }) => (
-          <OurMascotComponent
-            key={`m3-${id}`}
-            imageData={{ id, image, likes, isLiked, isSaved }}
-            onToggleLike={() => toggleLike(id)}
-            onToggleSave={() => toggleSave(id)}
-          />
-        ))}
-      </Marquee>
-    </>
+    <Box sx={{ display: "flex", flexDirection: "column", gap: "3vw" }}>
+      {rows.map((row, index) => (
+        <Marquee
+          key={index}
+          gap={3}
+          speed={8}
+          reverse={index % 2 === 1} // Чередуем направление для каждого второго ряда
+          pauseOnHover={true}
+        >
+          {row.map((m) => (
+            <OurMascotComponent
+              key={m.id}
+              imageData={m}
+              onToggleLike={() => toggleLike(m.id)}
+              onToggleSave={() => toggleSave(m.id)}
+            />
+          ))}
+        </Marquee>
+      ))}
+    </Box>
   );
 }

@@ -1,10 +1,10 @@
 "use client";
 
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Box } from "@mui/material";
-import { useEffect, useRef, ReactNode } from "react";
 
 type MarqueeProps = {
-  children: ReactNode;
+  children: React.ReactNode;
   speed?: number;
   gap?: number;
   reverse?: boolean;
@@ -12,7 +12,7 @@ type MarqueeProps = {
   fontFamily?: string;
   pauseOnHover?: boolean;
   bottomGap?: number;
-  addStyles?: {};
+  addStyles?: object;
 };
 
 export default function Marquee({
@@ -26,38 +26,69 @@ export default function Marquee({
   bottomGap = 0,
   addStyles = {},
 }: MarqueeProps) {
-  const marqueeRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const measureRef = useRef<HTMLDivElement | null>(null);
+
+  const [copies, setCopies] = useState(3);
+  const [duration, setDuration] = useState(20);
+
+  const gapCss = useMemo(() => `${gap}vw`, [gap]);
 
   useEffect(() => {
-    const marquee = marqueeRef.current;
-    if (!marquee) return;
+    const update = () => {
+      const container = containerRef.current;
+      const measure = measureRef.current;
+      if (!container || !measure) return;
 
-    const child = marquee.firstElementChild as HTMLElement | null;
-    if (!child) return;
+      const containerW = container.offsetWidth;
+      const baseW = measure.offsetWidth;
+      const gapPx = (window.innerWidth * gap) / 100;
 
-    const childWidth = child.offsetWidth + gap;
-    const containerWidth = marquee.offsetWidth;
-    const clonesNeeded = Math.ceil(containerWidth / childWidth) + 1;
+      if (baseW === 0) return;
 
-    Array.from(marquee.querySelectorAll(".clone")).forEach((c) => c.remove());
+      const needed = Math.ceil(containerW / (baseW + gapPx)) + 2;
+      setCopies(Math.max(2, needed));
 
-    for (let i = 0; i < clonesNeeded; i++) {
-      const clone = child.cloneNode(true) as HTMLElement;
-      clone.classList.add("clone");
-      marquee.appendChild(clone);
-    }
+      const pxPerCycle = baseW + gapPx;
+      const secs = pxPerCycle / Math.max(1, speed);
+      setDuration(secs);
+    };
 
-    const duration = childWidth / speed;
-    marquee.style.setProperty("--marquee-duration", `${duration}s`);
-    marquee.style.setProperty(
-      "--marquee-direction",
-      reverse ? "reverse" : "normal"
-    );
-    marquee.style.setProperty("--marquee-gap", `${gap}vw`);
-  }, [children, speed, gap, reverse]);
+    update();
+
+    const ro = new ResizeObserver(update);
+    if (containerRef.current) ro.observe(containerRef.current);
+    if (measureRef.current) ro.observe(measureRef.current);
+    window.addEventListener("resize", update);
+
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", update);
+    };
+  }, [children, speed, gap]);
+
+  // Готуємо копії контенту реактово, з унікальними ключами
+  const units = useMemo(() => {
+    return Array.from({ length: copies }, (_, i) => (
+      <Box
+        key={`unit-${i}`}
+        className="unit"
+        sx={{ display: "inline-flex", gap: gapCss, pointerEvents: "auto" }}
+      >
+        {React.Children.map(children, (child, idx) =>
+          React.isValidElement(child) ? (
+            React.cloneElement(child, { key: `item-${i}-${idx}` })
+          ) : (
+            <React.Fragment key={`frag-${i}-${idx}`}>{child}</React.Fragment>
+          )
+        )}
+      </Box>
+    ));
+  }, [children, copies, gapCss]);
 
   return (
     <Box
+      ref={containerRef}
       sx={{
         ...addStyles,
         overflow: "hidden",
@@ -67,28 +98,40 @@ export default function Marquee({
         whiteSpace: "nowrap",
         fontSize: fontSize || "inherit",
         fontFamily: fontFamily || "inherit",
+        position: "relative",
         "& .track": {
-          display: "flex",
-          gap: "var(--marquee-gap)",
-          animation: "marquee var(--marquee-duration) linear infinite",
-          animationDirection: "var(--marquee-direction)",
+          display: "inline-flex",
+          gap: gapCss,
+          animation: `marquee ${duration}s linear infinite`,
+          animationDirection: reverse ? "reverse" : "normal",
           ...(pauseOnHover && {
-            "&:hover": {
-              animationPlayState: "paused",
-            },
+            "&:hover": { animationPlayState: "paused" },
           }),
+          // важливо: дозволяємо події на дітях
+          pointerEvents: "auto",
         },
         "@keyframes marquee": {
           from: { transform: "translateX(0)" },
-          to: { transform: "translateX(calc(-100% - var(--marquee-gap)))" },
+          to: { transform: "translateX(calc(-100% - var(--gap, 0px)))" },
         },
       }}
     >
-      <Box ref={marqueeRef} className="track">
-        <Box display="flex" gap={`${gap}vw`}>
-          {children}
-        </Box>
+      {/* Прихований вимірювач ширини одного сету children */}
+      <Box
+        ref={measureRef}
+        sx={{
+          position: "absolute",
+          visibility: "hidden",
+          pointerEvents: "none",
+          whiteSpace: "nowrap",
+          display: "inline-flex",
+          gap: gapCss,
+        }}
+      >
+        {children}
       </Box>
+
+      <Box className="track">{units}</Box>
     </Box>
   );
 }

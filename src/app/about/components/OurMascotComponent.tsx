@@ -20,7 +20,7 @@ export default function OurMascotComponent({
   return (
     <Box
       sx={{
-        width: "clamp(0px, 26vw, 500px)",
+        width: "clamp(0px, 26vw, 300px)",
         height: "clamp(0px, 14vw, 260px)",
         overflow: "hidden",
         borderRadius: "25px",
@@ -59,7 +59,7 @@ export default function OurMascotComponent({
       >
         <Box
           component="img"
-          src={isSaved ? "./images/saved.svg" : "./images/unsaved.svg"}
+          src={isSaved ? "/images/saved.svg" : "/images/unsaved.svg"}
           sx={{
             width: "clamp(0px, 1vw, 20px)",
             height: "clamp(clamp(0px, 1vw, 20px)",
@@ -81,7 +81,7 @@ export default function OurMascotComponent({
         <Typography>{likes}</Typography>
         <Box
           component="img"
-          src={isLiked ? "./images/liked.svg" : "./images/not-liked.svg"}
+          src={isLiked ? "/images/liked.svg" : "/images/not-liked.svg"}
           sx={{
             maxWidth: "100%",
             maxHeight: "100%",
