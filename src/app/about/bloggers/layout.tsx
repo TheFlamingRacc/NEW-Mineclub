@@ -15,16 +15,58 @@ export default function BloggersLayout() {
     >
       <Box
         sx={{
+          // третє (найбільше коло)
           borderRadius: "1000px",
+          position: "absolute",
           height: "clamp(0px, 37vw, 700px)",
           width: "clamp(0px, 37vw, 700px)",
           border: "solid 1px rgb(255, 255, 255, 0.2)",
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          opacity: "0",
-          animation: "fadeIn 1.5s ease forwards",
-          animationDelay: "0.5s",
+          opacity: 0,
+          animation: "zoomInFade 1s ease forwards",
+          animationDelay: "1.5s", // останнім
+          "@keyframes zoomInFade": {
+            "0%": {
+              opacity: 0,
+              transform: "scale(0.6)",
+            },
+            "100%": {
+              opacity: 1,
+              transform: "scale(1)",
+            },
+          },
+        }}
+      />
+      <Box
+        sx={{
+          // друге (середнє коло)
+          borderRadius: "1000px",
+          height: "clamp(0px, 27vw, 550px)",
+          position: "absolute",
+          width: "clamp(0px, 27vw, 550px)",
+          border: "solid 1px rgb(255, 255, 255, 0.1)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          opacity: 0,
+          animation: "zoomInFade 1s ease forwards",
+          animationDelay: "1s", // друге
+        }}
+      />
+      <Box
+        component="img"
+        src="/images/Logo.svg"
+        sx={{
+          // перше (лого)
+          height: "clamp(0px, 10vw, 200px)",
+          aspectRatio: "1/1",
+          boxShadow: "0 10px 20px rgba(0, 0, 0, 0.6), 0 0 120px #7F1FC9",
+          borderRadius: "clamp(0px, 3vw, 55px)",
+          opacity: 0,
+          animation: "fadeIn 1s ease forwards",
+          animationDelay: "0.5s", // перше
           "@keyframes fadeIn": {
             "0%": {
               opacity: 0,
@@ -34,30 +76,8 @@ export default function BloggersLayout() {
             },
           },
         }}
-      >
-        <Box
-          sx={{
-            borderRadius: "1000px",
-            height: "clamp(0px, 27vw, 550px)",
-            width: "clamp(0px, 27vw, 550px)",
-            border: "solid 1px rgb(255, 255, 255, 0.1)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Box
-            component="img"
-            src="/images/Logo.svg"
-            sx={{
-              height: "clamp(0px, 10vw, 200px)",
-              aspectRatio: "1/1",
-              boxShadow: "0 10px 20px rgba(0, 0, 0, 0.6), 0 0 120px #7F1FC9",
-              borderRadius: "clamp(0px, 3vw, 55px)",
-            }}
-          />
-        </Box>
-      </Box>
+      />
+
       <Box
         sx={{
           position: "absolute",
@@ -71,6 +91,19 @@ export default function BloggersLayout() {
             fontWeight: "600",
             color: "white",
             textAlign: "center",
+            opacity: "0",
+            translate: "0 -20px",
+            animation: "fadeInSlide 1s ease forwards",
+            animationDelay: "1s",
+            "@keyframes fadeInSlide": {
+              "0%": {
+                opacity: 0,
+              },
+              "100%": {
+                opacity: 1,
+                translate: "0",
+              },
+            },
           }}
         >
           Нас рекомендують
@@ -84,6 +117,19 @@ export default function BloggersLayout() {
             color: "rgb(255, 255, 255, 0.8)",
             textAlign: "center",
             width: "clamp(0px, 40vw, 800px)",
+            opacity: "0",
+            translate: "0 -10px",
+            animation: "fadeInSlide 1s ease forwards",
+            animationDelay: "1.4s",
+            "@keyframes fadeInSlide": {
+              "0%": {
+                opacity: 0,
+              },
+              "100%": {
+                opacity: 1,
+                translate: "0",
+              },
+            },
           }}
         >
           Тут зібрані блогери, які наразі рекомендують нас своїм аудиторіям як
